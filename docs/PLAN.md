@@ -33,3 +33,4 @@
 | 2026-10-15 | | | cherryduck watched the windowed runs; reported the duplicate-AAA refusal on his card |
 | 2026-10-15 | | | Expanded aspect: Hor+ via `projection@entry`; agent checked menus and gameplay at 16:9 and 21:9 (shots), 19000 frames without a fault; in-game dialogue text at 21:9 not caught in a shot. cherryduck: Expanded was greyed out before (no `PortInfo::widescreen`) |
 | 2026-10-15 | | ad01af3 | cherryduck reported: name-entry cursor off at the edge columns (widescreen), seam flicker when turning. Agent: cursor override, verified at 21:9; flicker traced to 120+ Hz interpolation, fixed in the engine, in-between frames of a fast turn clean. Not yet confirmed by cherryduck on his 240 Hz display |
+| 2026-10-15 | | per-triangle sort | cherryduck: above-sea rock walls visible from under the sea, varying with camera. Agent: translucent sort order (engine), cliffs gone in A/B shots of the same frames. Not yet confirmed by cherryduck |

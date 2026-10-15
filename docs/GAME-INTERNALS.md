@@ -37,4 +37,6 @@ No 50/60 Hz prompt appeared on this PAL disc with the default (PAL) flash.
 | Port: entry hook scales fr4 by (4/3)/aspect = Hor+; vertical FOV unchanged; nothing culled at the edges at 21:9 | `scenario.py play --aspect 21:9` vs 4:3, frames 11500-19000 |
 | Gameplay HUD = flat polygons at 1/w 100 / 111.1 (fades 166.7, 333.3); 3D below 1.5 | `dreamcomp_ta_dump`, guest frame 13100 |
 | Menu text and button prompts are quads in the 3D scene (1/w ~0.3) and follow the widened camera, so they must not be un-stretched: the shared-depth HUD rule is off (`min_shared` huge), only `overlay_z = 50` | 21:9 menu shot: with the rule, the A icon landed on "SELECT" |
+| Menu cursor (rounded box, 1/w 100, texture `0x0c0d25f0`) is a 2D overlay over 3D-quad items; kept centred by `game/hud_overrides.ini` | cherryduck: box beside the outer letter columns of Enter Your Initials at widescreen; fixed and checked at 21:9 (A and G columns) |
+| Terrain is many strips per texture, culled per strip; near rock walls are re-clipped every frame. Both broke geometry interpolation (seam flicker in turns at >60 Hz) until pairing used texture coordinates (dreamcomp playbook T29) | `DREAM_SHOT_INTERP=1` in-between frames of a fast turn |
 

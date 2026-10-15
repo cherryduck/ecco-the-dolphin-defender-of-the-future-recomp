@@ -1,0 +1,34 @@
+# ============================================================
+#  NO GAME DATA IN THIS REPOSITORY. EVER.
+#  Ecco the Dolphin: Defender of the Future is (c) its publisher.
+#  This repository ships configuration and original code only;
+#  every player supplies their own disc image.
+#  `python dreamcomp/tools/audit.py assets --repo .` enforces it.
+# ============================================================
+*.cue
+*.gdi
+*.cdi
+*.chd
+*.iso
+*.bin
+*.BIN
+*.PVR
+*.DAT
+*.vmu
+*.vms
+*.vmi
+
+# Extracted from the owner's disc by tools/dc.py setup
+game/extracted/
+game/suggested.toml
+
+# Build output and machine-local state
+build*/
+.dreamcomp/
+shots/
+traces/
+*.ppm
+*.log
+CLAUDE.local.md
+.claude/settings.local.json
+__pycache__/

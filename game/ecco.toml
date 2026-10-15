@@ -1,0 +1,20 @@
+# Ecco the Dolphin: Defender of the Future (Europe), MK-5103350 V1.003 -- dreamcomp game config.
+# Format: dreamcomp/engine/docs/game-config.md. Measured on the owner's disc; never commit disc data.
+
+[game]
+id = "ecco"
+title = "Ecco the Dolphin: Defender of the Future"
+region = "Europe"
+product = "MK-5103350"
+
+[disc]
+sha1_1st_read = "e6b209962f6d3d9565a4a6f8d430f1e921d264c0"   # the boot file this config was measured against
+
+[binary]
+path = "extracted/fs/1ST_READ.BIN"   # written by tools/dc.py setup, git-ignored
+load_address = 0x8C010000
+link_address = 0x0C010000
+entry = 0x8C010000
+
+# [[relocations]] and [functions] extra: paste from --suggest-config, with a comment saying how
+# each was found. [hooks]: see dreamcomp docs/HOOKS.md.

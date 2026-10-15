@@ -5,23 +5,29 @@
 - No game data in the repo (dreamcomp docs/LEGAL.md); audit pre-commit hook installed.
 - One verified change at a time; enhancements behind settings, on once verified.
 - No black bars; high frame rate never by changing game logic rate.
+- Target: Linux (CachyOS, g++ 16, Vulkan, Wayland), dreamcomp fork `cherryduck/dreamcomp` branch `linux-ecco`.
 
 ## Phases
 
 | Phase | Entry gate | Exit criteria (visible behaviour) | Status |
 |---|---|---|---|
-| 00 Survey | disc present | identity, SDK, files recorded | |
-| 01 Boot | config builds | menus reachable; 0 untranslated / 0 unmapped over 1800 frames | |
-| 02 Audio | 01 | music + effects audible | |
-| 03 Full play | 02 | complete playthrough, saves load | |
-| 04 Enhancements | 03 | per dc-enhance | |
+| 00 Survey | disc present | identity, SDK, files recorded | done 2026-10-15 (`findings/phase-00.md`) |
+| 01 Boot | config builds | menus reachable; 0 untranslated / 0 unmapped over menus and first gameplay | done 2026-10-15 except 1 unmapped write, which the interpreter makes too (guest behaviour, see GAME-INTERNALS) |
+| 02 Audio | 01 | music + effects audible | not started: 120 key-ons in the `play` scenario, nobody has listened |
+| 03 Full play | 02 | all 39 levels (CONFIG.TXT) completable, saves load | not started |
+| 04 Enhancements | 03 | widescreen (Flycast MK-5103350 values), scale, idle skip, interpolation | not started |
 
 ## Decisions
 
 | Date | Decision | Options | Why | By |
 |---|---|---|---|---|
+| 2026-10-15 | `link_address = 0x8C010000` | template's 0x0C010000 | CodeWarrior links at P1: 62,088 0x8C pointers vs 734 0x0C in the image | agent |
+| 2026-10-15 | Split generated code 32 ways (`DREAM_GEN_SHARDS`, dreamcomp) | single 244 MB file | fresh build 514 s -> 70 s | agent |
+| 2026-10-15 | Scenarios use the new-game path on a fresh card | select an existing save | scenario.py gives every run its own card; on the player's card AAA exists and the game refuses a duplicate | agent, after cherryduck's report |
 
 ## Verified checkpoints
 
 | Date | Port commit | dreamcomp commit | What was confirmed, by whom |
 |---|---|---|---|
+| 2026-10-15 | (this commit) | linux-ecco | `scenario.py play --port ecco`: logos, title, Select VM, New Game, initials, main menu, prologue film, first controllable scene with HUD; 0 untranslated targets over 20000 frames; translated and `--interpret` TA dumps byte-identical at frame 13100 (gameplay). Agent, screenshots |
+| 2026-10-15 | | | cherryduck watched the windowed runs; reported the duplicate-AAA refusal on his card |

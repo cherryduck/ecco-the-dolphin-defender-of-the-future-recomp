@@ -62,4 +62,9 @@ extra = [0x8C038DBC, 0x8C042AB4, 0x8C053AC0, 0x8C055DB8, 0x8C05722C, 0x8C0605CC,
          0x8C232AAC, 0x8C242588, 0x8C24C318, 0x8C25288C, 0x8C258094, 0x8C25D1C4,
          0x8C2647CC, 0x8C26C700, 0x8C274620,
          # First windowed run to the title screen (dc.py shots, 1800 frames): 1 call each.
-         0x8C2C0C86, 0x8C2C0C8E]
+         0x8C2C0C86, 0x8C2C0C8E,
+         # Main menu -> Start Game (2026-10-15): 1 call.
+         0x8C2374C4,
+         # Prologue cutscene into the first controllable scene, ~frame 11000 (2026-10-15):
+         # 11964, 3, 1 and 3816 calls in 17000 frames.
+         0x8C1B3420, 0x8C1B3644, 0x8C1B41B4, 0x8C1B41DC]

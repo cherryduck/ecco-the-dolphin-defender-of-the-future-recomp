@@ -13,9 +13,9 @@
 |---|---|---|---|
 | 00 Survey | disc present | identity, SDK, files recorded | done 2026-10-15 (`findings/phase-00.md`) |
 | 01 Boot | config builds | menus reachable; 0 untranslated / 0 unmapped over menus and first gameplay | done 2026-10-15 except 1 unmapped write, which the interpreter makes too (guest behaviour, see GAME-INTERNALS) |
-| 02 Audio | 01 | music + effects audible | not started: 120 key-ons in the `play` scenario, nobody has listened |
-| 03 Full play | 02 | all 39 levels (CONFIG.TXT) completable, saves load | not started |
-| 04 Enhancements | 03 | widescreen (Flycast MK-5103350 values), scale, idle skip, interpolation | not started |
+| 02 Audio | 01 | music + effects audible | done 2026-10-15 (cherryduck: green) |
+| 03 Full play | 02 | all 39 levels (CONFIG.TXT) completable, saves load | done 2026-10-15 (cherryduck: playthrough green) |
+| 04 Enhancements | 03 | widescreen, scale, idle skip, interpolation | widescreen Expanded up to 21:9 (projection hook, Hor+), HUD fix; scale works (engine); idle skip, interpolation not started |
 
 ## Decisions
 
@@ -31,3 +31,4 @@
 |---|---|---|---|
 | 2026-10-15 | (this commit) | linux-ecco | `scenario.py play --port ecco`: logos, title, Select VM, New Game, initials, main menu, prologue film, first controllable scene with HUD; 0 untranslated targets over 20000 frames; translated and `--interpret` TA dumps byte-identical at frame 13100 (gameplay). Agent, screenshots |
 | 2026-10-15 | | | cherryduck watched the windowed runs; reported the duplicate-AAA refusal on his card |
+| 2026-10-15 | | | Expanded aspect: Hor+ via `projection@entry`; agent checked menus and gameplay at 16:9 and 21:9 (shots), 19000 frames without a fault; in-game dialogue text at 21:9 not caught in a shot. cherryduck: Expanded was greyed out before (no `PortInfo::widescreen`) |

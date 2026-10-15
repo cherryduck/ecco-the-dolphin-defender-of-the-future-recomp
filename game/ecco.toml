@@ -68,3 +68,7 @@ extra = [0x8C038DBC, 0x8C042AB4, 0x8C053AC0, 0x8C055DB8, 0x8C05722C, 0x8C0605CC,
          # Prologue cutscene into the first controllable scene, ~frame 11000 (2026-10-15):
          # 11964, 3, 1 and 3816 calls in 17000 frames.
          0x8C1B3420, 0x8C1B3644, 0x8C1B41B4, 0x8C1B41DC]
+
+[hooks]
+# Projection builder (x scale fr4, y scale fr5): widescreen scales x (src/ecco.cpp).
+0x8C040C04 = "projection@entry"

@@ -27,3 +27,14 @@ Facts about the game, measured by this port, with how each was found.
 | ~11500 | first controllable scene, HUD (health, air); tutorial dolphin dialogue from ~13000 (A advances) |
 
 No 50/60 Hz prompt appeared on this PAL disc with the default (PAL) flash.
+
+## Widescreen (2026-10-15)
+
+| Fact | How found |
+|---|---|
+| All camera projections go through `fn_8c040c04(camera r4, vec r5, x_scale fr4, y_scale fr5)`; it builds the matrix at camera+100 and the clip data | callers `fn_8c040c94`/`fn_8c040d84` load the cheat's 0.75 literals and pass `cot(fov/2)*sqrt(0.75)` / `cot(fov/2)/sqrt(0.75)` (disasm; `0x8C0168B0` is `fsqrt`, `0x8C0170F4` the tan routine) |
+| Flycast's `0x8C275418` is the constant term of the tan() rational approximation (two neighbouring 2027025.0 words), so its cheat changes tan() everywhere | disasm of `0x8C014B34` pool |
+| Port: entry hook scales fr4 by (4/3)/aspect = Hor+; vertical FOV unchanged; nothing culled at the edges at 21:9 | `scenario.py play --aspect 21:9` vs 4:3, frames 11500-19000 |
+| Gameplay HUD = flat polygons at 1/w 100 / 111.1 (fades 166.7, 333.3); 3D below 1.5 | `dreamcomp_ta_dump`, guest frame 13100 |
+| Menu text and button prompts are quads in the 3D scene (1/w ~0.3) and follow the widened camera, so they must not be un-stretched: the shared-depth HUD rule is off (`min_shared` huge), only `overlay_z = 50` | 21:9 menu shot: with the rule, the A icon landed on "SELECT" |
+

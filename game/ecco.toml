@@ -13,8 +13,53 @@ sha1_1st_read = "e6b209962f6d3d9565a4a6f8d430f1e921d264c0"   # the boot file thi
 [binary]
 path = "extracted/fs/1ST_READ.BIN"   # written by tools/dc.py setup, git-ignored
 load_address = 0x8C010000
-link_address = 0x0C010000
+# CodeWarrior links this binary at its P1 load address, unlike the SHC titles (0x0C010000):
+# 62,088 image-range words in 0.BIN are 0x8Cxxxxxx pointers against 734 0x0Cxxxxxx (2026-10-15).
+# With 0x0C010000 the pointer pass missed the static-constructor table (80 untranslated calls
+# from 0x0C0171AE in the first 1800 frames).
+link_address = 0x8C010000
 entry = 0x8C010000
 
 # [[relocations]] and [functions] extra: paste from --suggest-config, with a comment saying how
 # each was found. [hooks]: see dreamcomp docs/HOOKS.md.
+
+# Katana copies its exception/interrupt stubs below the load address at boot (playbook T1); VBR
+# is 0x8C000000, interrupts enter at VBR+0x600. Found with --suggest-config (2026-10-15): 14,020
+# untranslated calls to 0x8C000600 in 1800 frames. The 0x600 copy is the last 44 bytes of the
+# same 56-byte block (the report's "bytes match the image at 0x8c2bf338 for 44 bytes"); the
+# suggester's 48-byte minimum skipped it.
+[[relocations]]  # RAM 0x8c000100 reproduces image 0x8c2bf304 for 56 bytes
+source = 0x8C2BF304
+size = 0x38
+dest = 0x8C000100
+
+[[relocations]]  # RAM 0x8c000400 reproduces image 0x8c2bf304 for 56 bytes
+source = 0x8C2BF304
+size = 0x38
+dest = 0x8C000400
+
+[[relocations]]  # RAM 0x8c000600 reproduces image 0x8c2bf338 for 44 bytes (interrupt entry)
+source = 0x8C2BF338
+size = 0x2C
+dest = 0x8C000600
+
+[functions]
+# Called once each from 0x8C0171AE during the first 1800 frames (2026-10-15 report: "in the
+# image ... discovery never reached it"); the caller walks a table of pointers, which looks like
+# CodeWarrior's static-constructor list.
+extra = [0x8C038DBC, 0x8C042AB4, 0x8C053AC0, 0x8C055DB8, 0x8C05722C, 0x8C0605CC,
+         0x8C06811C, 0x8C069774, 0x8C06BA84, 0x8C06CB40, 0x8C071FE8, 0x8C07B1F0,
+         0x8C080830, 0x8C086BAC, 0x8C089720, 0x8C08E904, 0x8C093D98, 0x8C095570,
+         0x8C09A63C, 0x8C0B2BB8, 0x8C0B8350, 0x8C0BC0B8, 0x8C0BF990, 0x8C0CA0F0,
+         0x8C0D090C, 0x8C0D6818, 0x8C0DA06C, 0x8C0E42D4, 0x8C0E9EB0, 0x8C0EE068,
+         0x8C0F0FC0, 0x8C0F687C, 0x8C0FBFEC, 0x8C0FEEA0, 0x8C100264, 0x8C105398,
+         0x8C11A8B0, 0x8C122B08, 0x8C124F30, 0x8C131CDC, 0x8C13D7A0, 0x8C150AF0,
+         0x8C155864, 0x8C159378, 0x8C15B3EC, 0x8C169574, 0x8C16FAC0, 0x8C172254,
+         0x8C17B8E8, 0x8C17F6A4, 0x8C1828A8, 0x8C198F9C, 0x8C1AA970, 0x8C1AE618,
+         0x8C1AF210, 0x8C1B687C, 0x8C1BA07C, 0x8C1BD2A0, 0x8C1C2A70, 0x8C1CB84C,
+         0x8C1D3510, 0x8C1DA724, 0x8C1F22C0, 0x8C1F8BDC, 0x8C1FE694, 0x8C20288C,
+         0x8C20A8B8, 0x8C210084, 0x8C21655C, 0x8C21D568, 0x8C2232B8, 0x8C225654,
+         0x8C232AAC, 0x8C242588, 0x8C24C318, 0x8C25288C, 0x8C258094, 0x8C25D1C4,
+         0x8C2647CC, 0x8C26C700, 0x8C274620,
+         # First windowed run to the title screen (dc.py shots, 1800 frames): 1 call each.
+         0x8C2C0C86, 0x8C2C0C8E]
